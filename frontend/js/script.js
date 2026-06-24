@@ -1405,3 +1405,24 @@ document.addEventListener('DOMContentLoaded', function () {
     enterDashboard();
   }
 });
+function scrollToLogin() {
+    document.querySelector('#auth-screen').scrollIntoView({
+        behavior: 'smooth'
+    });
+}document.querySelectorAll('.counter').forEach(counter => {
+    const updateCounter = () => {
+        const target = +counter.getAttribute('data-target');
+        const current = +counter.innerText;
+
+        const increment = target / 100;
+
+        if(current < target){
+            counter.innerText = Math.ceil(current + increment);
+            setTimeout(updateCounter,20);
+        }else{
+            counter.innerText = target.toLocaleString() + '+';
+        }
+    };
+
+    updateCounter();
+});
