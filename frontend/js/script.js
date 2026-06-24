@@ -1426,3 +1426,8 @@ function scrollToLogin() {
 
     updateCounter();
 });
+function scrollToLogin() {
+    document.querySelector('#auth-screen').scrollIntoView({
+        behavior: 'smooth'
+    });
+}
