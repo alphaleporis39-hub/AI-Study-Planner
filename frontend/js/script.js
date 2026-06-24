@@ -1427,7 +1427,13 @@ function scrollToLogin() {
     updateCounter();
 });
 function scrollToLogin() {
-    document.querySelector('#auth-screen').scrollIntoView({
-        behavior: 'smooth'
-    });
+    const auth = document.getElementById('auth-screen');
+
+    if (auth) {
+        auth.style.display = 'flex';
+        auth.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    }
 }
