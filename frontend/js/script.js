@@ -1427,5 +1427,7 @@ function scrollToLogin() {
     updateCounter();
 });
 function scrollToLogin() {
-    alert("Button clicked");
+    document.querySelector('#auth-screen').scrollIntoView({
+        behavior: 'smooth'
+    });
 }
