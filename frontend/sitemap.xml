@@ -1,9 +1,113 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-<url>
-<loc>https://studyhubai.in/</loc>
-<priority>1.0</priority>
-</url>
+  <!-- Main App -->
+  <url>
+    <loc>https://studyhubai.in/</loc>
+    <lastmod>2024-06-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Static Pages -->
+  <url>
+    <loc>https://studyhubai.in/about</loc>
+    <lastmod>2024-06-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://studyhubai.in/contact</loc>
+    <lastmod>2024-06-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://studyhubai.in/faq</loc>
+    <lastmod>2024-06-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://studyhubai.in/privacy</loc>
+    <lastmod>2024-06-28</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://studyhubai.in/terms</loc>
+    <lastmod>2024-06-28</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- Blog Index -->
+  <url>
+    <loc>https://studyhubai.in/blog</loc>
+    <lastmod>2024-06-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Blog Articles -->
+  <url>
+    <loc>https://studyhubai.in/blog/study-planning-guide</loc>
+    <lastmod>2024-06-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://studyhubai.in/blog/pomodoro-technique</loc>
+    <lastmod>2024-06-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://studyhubai.in/blog/time-management-students</loc>
+    <lastmod>2024-06-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://studyhubai.in/blog/exam-preparation-tips</loc>
+    <lastmod>2024-06-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://studyhubai.in/blog/student-productivity</loc>
+    <lastmod>2024-06-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://studyhubai.in/blog/goal-setting-students</loc>
+    <lastmod>2024-06-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://studyhubai.in/blog/daily-study-routine</loc>
+    <lastmod>2024-06-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://studyhubai.in/blog/ai-for-students</loc>
+    <lastmod>2024-06-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
 
 </urlset>

@@ -1,156 +1,133 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
-  <link rel="canonical" href="https://studyhubai.in/">
+  <!-- ── Primary Meta ─────────────────────────────────────────── -->
   <meta charset="UTF-8" />
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>StudyHub AI - Smart AI Study Planner for Students</title>
-  <meta name="description" content="StudyHub AI is a smart AI-powered study planner for students. Create study schedules, track progress, manage goals, and improve productivity.">
+  <title>StudyHub AI – Free AI Study Planner for Students | Create Smart Study Schedules</title>
+  <meta name="description" content="StudyHub AI is a free, AI-powered study planner for students. Generate smart timetables, track progress, use Pomodoro timer, manage exam countdowns, set daily goals, and boost productivity.">
+  <meta name="keywords" content="AI study planner, study planner, student productivity, exam preparation, study schedule, Pomodoro timer, AI learning assistant, CDS preparation, college study planner, free study planner">
+  <meta name="author" content="Mohit Chaudhary">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <meta name="theme-color" content="#6366f1">
+  <link rel="canonical" href="https://studyhubai.in/">
 
-<meta name="keywords" content="AI study planner, study planner, student productivity, exam preparation, study schedule, AI learning assistant, CDS preparation, college study planner">
+  <!-- ── Open Graph ─────────────────────────────────────────── -->
+  <meta property="og:title" content="StudyHub AI – Free AI Study Planner for Students">
+  <meta property="og:description" content="Free AI-powered study planner for students. Create smart timetables, track goals, use Pomodoro timer, manage exam countdowns, and improve productivity.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://studyhubai.in/">
+  <meta property="og:site_name" content="StudyHub AI">
+  <meta property="og:image" content="https://studyhubai.in/web-app-manifest-512x512.png">
+  <meta property="og:image:alt" content="StudyHub AI – Smart Study Planner">
+  <meta property="og:locale" content="en_US">
 
-<meta name="author" content="Mohit Chaudhary">
+  <!-- ── Twitter Card ───────────────────────────────────────── -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="StudyHub AI – Free AI Study Planner for Students">
+  <meta name="twitter:description" content="Free AI-powered study planner: smart timetables, Pomodoro timer, exam countdowns, daily goals & analytics.">
+  <meta name="twitter:image" content="https://studyhubai.in/web-app-manifest-512x512.png">
+  <meta name="twitter:image:alt" content="StudyHub AI – Smart Study Planner">
 
-<meta name="robots" content="index, follow">
-<meta property="og:title" content="StudyHub AI - Smart AI Study Planner">
-<meta property="og:description" content="AI-powered study planner for students to organize studies, track goals, and improve productivity.">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="StudyHub AI">
-
-  <link rel="stylesheet" href="css/style.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <!-- ── Icons & Manifest ───────────────────────────────────── -->
   <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96">
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
-<link rel="shortcut icon" href="favicon.ico">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-<link rel="manifest" href="site.webmanifest">
-<meta property="og:site_name" content="StudyHub AI">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
 
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-EWXBC6216S"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <!-- ── Stylesheet ─────────────────────────────────────────── -->
+  <link rel="stylesheet" href="css/style.css" />
 
-  gtag('config', 'G-EWXBC6216S');
-</script>
+  <!-- ── External Scripts ──────────────────────────────────── -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <!-- ── Google Analytics ──────────────────────────────────── -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EWXBC6216S"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EWXBC6216S');
+  </script>
+
+  <!-- ── Schema.org JSON-LD ────────────────────────────────── -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://studyhubai.in/#website",
+        "url": "https://studyhubai.in/",
+        "name": "StudyHub AI",
+        "description": "Free AI-powered study planner for students",
+        "inLanguage": "en-US",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://studyhubai.in/blog?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://studyhubai.in/#organization",
+        "name": "StudyHub AI",
+        "url": "https://studyhubai.in/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://studyhubai.in/web-app-manifest-512x512.png",
+          "width": 512,
+          "height": 512
+        },
+        "founder": {
+          "@type": "Person",
+          "name": "Mohit Chaudhary"
+        },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "email": "contactrcyril555@gmail.com",
+          "contactType": "customer support"
+        },
+        "sameAs": ["https://studyhubai.in"]
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://studyhubai.in/#app",
+        "name": "StudyHub AI",
+        "url": "https://studyhubai.in/",
+        "applicationCategory": "EducationApplication",
+        "operatingSystem": "Web Browser",
+        "description": "AI-powered study planner for students featuring smart timetable generation, Pomodoro timer, exam countdown, daily goals, progress tracking, and study analytics.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Mohit Chaudhary"
+        },
+        "featureList": [
+          "AI Study Planning",
+          "Timetable Generator",
+          "Pomodoro Timer",
+          "Exam Countdown",
+          "Progress Tracking",
+          "Daily Goals",
+          "Study Analytics",
+          "Notes Manager",
+          "Dark Mode",
+          "Hydration Reminders"
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 <!-- HERO SECTION -->
-<section class="hero-section">
-<div class="hero-content">
 
-<div class="hero-badge">
-🚀 AI Powered Study Companion
-</div>
-
-<h1 class="hero-title">
-Study <span>Smarter</span>, Not Harder
-</h1>
-
-<p class="hero-description">
-Create smart schedules, track goals, manage exams and boost productivity with AI.
-</p>
-
-<div class="hero-buttons">
-<button class="primary-btn" onclick="scrollToLogin()">
-Get Started Free
-</button>
-
-<button class="secondary-btn">
-Learn More
-</button>
-</div>
-
-</div>
-
-</section>
-<section class="features-section">
-    <h2 class="section-title">Why Choose StudyHub AI?</h2>
-
-    <div class="features-grid">
-
-        <div class="feature-card">
-            <div class="feature-icon">📚</div>
-            <h3>AI Timetable</h3>
-            <p>Create personalized study schedules instantly.</p>
-        </div>
-
-        <div class="feature-card">
-            <div class="feature-icon">🎯</div>
-            <h3>Goal Tracking</h3>
-            <p>Track daily, weekly and monthly study goals.</p>
-        </div>
-
-        <div class="feature-card">
-            <div class="feature-icon">⏰</div>
-            <h3>Exam Countdown</h3>
-            <p>Stay prepared for upcoming exams.</p>
-        </div>
-
-        <div class="feature-card">
-            <div class="feature-icon">📊</div>
-            <h3>Progress Analytics</h3>
-            <p>Monitor performance and study consistency.</p>
-        </div>
-
-        <div class="feature-card">
-            <div class="feature-icon">💧</div>
-            <h3>Smart Reminders</h3>
-            <p>Hydration and study break notifications.</p>
-        </div>
-
-        <div class="feature-card">
-            <div class="feature-icon">🚀</div>
-            <h3>Productivity Boost</h3>
-            <p>Build strong habits and improve focus.</p>
-        </div>
-
-    </div>
-</section>
-
-<section class="stats-section">
-    <h2 class="section-title">Trusted By Students</h2>
-
-    <div class="stats-grid">
-
-        <div class="stat-card">
-            <h3 class="counter" data-target="5000">0</h3>
-            <p>Study Sessions</p>
-        </div>
-
-        <div class="stat-card">
-            <h3 class="counter" data-target="1200">0</h3>
-            <p>Goals Completed</p>
-        </div>
-
-        <div class="stat-card">
-            <h3 class="counter" data-target="850">0</h3>
-            <p>Active Students</p>
-        </div>
-
-        <div class="stat-card">
-            <h3 class="counter" data-target="25000">0</h3>
-            <p>Study Hours</p>
-        </div>
-
-    </div>
-</section>
-
-<section class="audience-section">
-    <h2 class="section-title">Perfect For</h2>
-
-    <div class="audience-list">
-        <span>📖 School Students</span>
-        <span>🎓 College Students</span>
-        <span>🪖 CDS Aspirants</span>
-        <span>🏛 NDA Aspirants</span>
-        <span>💼 Placement Preparation</span>
-        <span>📚 Self Learners</span>
-    </div>
-</section>
 
   <!-- AUTH SCREEN -->
   <div id="auth-screen" class="screen active">
@@ -648,6 +625,21 @@ Learn More
 
   <!-- Toast notification container -->
   <div id="toast-container"></div>
+
+  <!-- ── Site Footer (SEO internal links) ──────────────────────── -->
+  <footer class="seo-footer" aria-label="Site footer">
+    <div class="seo-footer-inner">
+      <div class="seo-footer-links">
+        <a href="/about">About</a>
+        <a href="/blog">Blog</a>
+        <a href="/faq">FAQ</a>
+        <a href="/contact">Contact</a>
+        <a href="/privacy">Privacy Policy</a>
+        <a href="/terms">Terms &amp; Conditions</a>
+      </div>
+      <p class="seo-footer-copy">© 2024 StudyHub AI by Mohit Chaudhary · <a href="https://studyhubai.in">studyhubai.in</a></p>
+    </div>
+  </footer>
 
   <script src="js/script.js"></script>
 </body>

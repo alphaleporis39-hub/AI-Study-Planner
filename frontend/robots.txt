@@ -1,4 +1,18 @@
 User-agent: *
 Allow: /
 
+# Disallow API and server paths
+Disallow: /api/
+Disallow: /.git/
+
+# Allow all crawlable pages
+Allow: /about
+Allow: /contact
+Allow: /faq
+Allow: /privacy
+Allow: /terms
+Allow: /blog
+Allow: /blog/
+
+# Sitemaps
 Sitemap: https://studyhubai.in/sitemap.xml

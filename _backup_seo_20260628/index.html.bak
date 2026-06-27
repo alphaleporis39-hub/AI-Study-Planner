@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <link rel="canonical" href="https://studyhubai.in/">
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudyHub AI - Smart AI Study Planner for Students</title>
+  <meta name="description" content="StudyHub AI is a smart AI-powered study planner for students. Create study schedules, track progress, manage goals, and improve productivity.">
+
+<meta name="keywords" content="AI study planner, study planner, student productivity, exam preparation, study schedule, AI learning assistant, CDS preparation, college study planner">
+
+<meta name="author" content="Mohit Chaudhary">
+
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="StudyHub AI - Smart AI Study Planner">
+<meta property="og:description" content="AI-powered study planner for students to organize studies, track goals, and improve productivity.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="StudyHub AI">
+
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="shortcut icon" href="favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta property="og:site_name" content="StudyHub AI">
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EWXBC6216S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-EWXBC6216S');
+</script>
+</head>
+<body>
+<!-- HERO SECTION -->
+
+
+  <!-- AUTH SCREEN -->
+  <div id="auth-screen" class="screen active">
+    <div class="auth-card">
+      <div class="logo">
+        <span class="logo-icon">🎓</span>
+        <h1>AI Study Planner</h1>
+        <p>Your intelligent learning companion</p>
+      </div>
+      <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchTab('login')">Login</button>
+        <button class="tab-btn" onclick="switchTab('register')">Register</button>
+      </div>
+      <div class="auth-hint" id="auth-hint">
+        Already registered? Login below.
+      </div>
+      <form id="login-form" class="auth-form" onsubmit="handleLogin(event)">
+        <div class="input-group">
+          <label>Username</label>
+          <input type="text" id="login-username" placeholder="Enter username" required />
+        </div>
+        <div class="input-group">
+          <label>Password</label>
+          <input type="password" id="login-password" placeholder="Enter password" required />
+        </div>
+        <button type="submit" class="btn btn-primary btn-full">Login</button>
+        <p id="login-error" class="error-msg"></p>
+      </form>
+      <form id="register-form" class="auth-form hidden" onsubmit="handleRegister(event)">
+        <div class="input-group">
+          <label>Username</label>
+          <input type="text" id="reg-username" placeholder="Choose username" required />
+        </div>
+        <div class="input-group">
+          <label>Password</label>
+          <input type="password" id="reg-password" placeholder="Min 4 characters" required />
+        </div>
+        <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+        <p id="reg-error" class="error-msg"></p>
+        <p id="reg-success" class="success-msg"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- DASHBOARD SCREEN -->
+  <div id="dashboard-screen" class="screen">
+    
+
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <span>🎓</span>
+        <span>StudyAI</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="#" class="nav-item active" data-page="dashboard">📊 Dashboard</a>
+        <a href="#" class="nav-item" data-page="subjects">📚 Subjects</a>
+        <a href="#" class="nav-item" data-page="timetable">📅 Timetable</a>
+        <a href="#" class="nav-item" data-page="progress">📈 Progress</a>
+        <a href="#" class="nav-item" data-page="goals">🎯 Daily Goals</a>
+        <a href="#" class="nav-item" data-page="exams">🚨 Exam Countdown</a>
+        <a href="#" class="nav-item" data-page="notes">📝 Notes</a>
+        <a href="#" class="nav-item" data-page="analytics">🔥 Analytics</a>
+        <a href="#" class="nav-item" data-page="pomodoro">⏱ Pomodoro</a>
+        <a href="#" class="nav-item" data-page="tips">🧠 AI Tips</a>
+        <a href="#" class="nav-item" data-page="profile">👤 Profile</a>
+        <a href="#" class="nav-item" data-page="settings">⚙️ Settings</a>
+        <a href="#" class="nav-item" data-page="about">ℹ️ About</a>
+      </nav>
+      <div class="sidebar-footer">
+        <span id="sidebar-username"></span>
+        <button class="btn btn-ghost" onclick="logout()">Logout</button>
+      </div>
+    </aside>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+    <main class="main-content">
+
+      <header class="topbar">
+        <button class="hamburger" id="hamburger" onclick="toggleSidebar()">☰</button>
+        <div class="topbar-right">
+          <span class="streak-badge" id="streak-badge">🔥 0 day streak</span>
+          <button class="dark-toggle" id="dark-toggle" onclick="toggleDarkMode()" title="Toggle dark mode">🌙</button>
+        </div>
+      </header>
+
+      <!-- PAGE: Dashboard -->
+      <section id="page-dashboard" class="page active">
+        <h2 class="page-title">Dashboard</h2>
+        <div class="stats-grid" id="stats-grid"></div>
+        <div class="dashboard-grid">
+          <div class="card">
+            <h3>Today's Schedule</h3>
+            <div id="today-schedule"></div>
+          </div>
+          <div class="card">
+            <h3>🚨 Upcoming Exams</h3>
+            <div id="dash-exams"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE: Subjects -->
+      <section id="page-subjects" class="page">
+        <h2 class="page-title">Subjects</h2>
+        <div class="card">
+          <h3>Add Subject</h3>
+          <form onsubmit="addSubject(event)" class="inline-form">
+            <input type="text" id="sub-name" placeholder="Subject name" required />
+            <select id="sub-priority">
+              <option value="1">High Priority</option>
+              <option value="2" selected>Medium Priority</option>
+              <option value="3">Low Priority</option>
+            </select>
+            <input type="number" id="sub-hrs" placeholder="Est. hours" min="1" max="200" required />
+            <button type="submit" class="btn btn-primary">Add</button>
+          </form>
+        </div>
+        <div class="card mt-2">
+          <h3>Your Subjects</h3>
+          <div id="subjects-list"></div>
+        </div>
+      </section>
+
+      <!-- PAGE: Timetable -->
+      <section id="page-timetable" class="page">
+        <h2 class="page-title">Timetable</h2>
+        <div class="card">
+          <h3>Generate Timetable</h3>
+          <form onsubmit="generateTimetable(event)" class="inline-form">
+            <div class="input-group">
+              <label>Days per week</label>
+              <input type="number" id="tt-days" value="5" min="1" max="7" />
+            </div>
+            <div class="input-group">
+              <label>Hours per day</label>
+              <input type="number" id="tt-hours" value="3" min="1" max="12" />
+            </div>
+            <div class="input-group">
+              <label>Start hour (0-23)</label>
+              <input type="number" id="tt-start" value="9" min="0" max="23" />
+            </div>
+            <button type="submit" class="btn btn-primary">Generate</button>
+          </form>
+        </div>
+        <div class="card mt-2">
+          <div class="card-header-row">
+            <h3>Weekly Schedule</h3>
+            <button class="btn btn-ghost btn-sm" onclick="exportTimetablePDF()">📄 Export PDF</button>
+          </div>
+          <div id="timetable-grid"></div>
+        </div>
+        <div class="card mt-2">
+          <div class="card-header-row">
+            <h3>✏️ Edit Timetable</h3>
+            <select id="edit-tt-day" onchange="renderEditTimetable()"></select>
+          </div>
+          <div id="edit-tt-slots"></div>
+          <div class="inline-form" style="margin-top:1rem">
+            <select id="edit-slot-subject"></select>
+            <input type="time" id="edit-slot-start" value="09:00" />
+            <input type="time" id="edit-slot-end" value="10:00" />
+            <button class="btn btn-primary" onclick="addEditSlot()">+ Add Slot</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE: Progress -->
+      <section id="page-progress" class="page">
+        <h2 class="page-title">Progress Tracker</h2>
+        <div class="card">
+          <h3>Overall Completion</h3>
+          <div class="overall-progress">
+            <div class="big-percent" id="overall-percent">0%</div>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar" id="overall-bar" style="width:0%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="card mt-2">
+          <h3>Log Study Session</h3>
+          <form onsubmit="logProgress(event)" class="inline-form">
+            <select id="prog-subject"></select>
+            <input type="number" id="prog-mins" placeholder="Minutes studied" min="1" max="600" required />
+            <button type="submit" class="btn btn-primary">Log</button>
+          </form>
+        </div>
+        <div class="card mt-2">
+          <h3>Subject Progress</h3>
+          <div id="progress-list"></div>
+        </div>
+      </section>
+
+      <!-- PAGE: Daily Goals -->
+      <section id="page-goals" class="page">
+        <h2 class="page-title">Daily Goals</h2>
+        <div class="card">
+          <h3>Set Today's Goal</h3>
+          <form onsubmit="addGoal(event)" class="inline-form">
+            <input type="text" id="goal-text" placeholder="e.g. Read Chapter 5" required />
+            <select id="goal-subject"><option value="">No subject</option></select>
+            <button type="submit" class="btn btn-primary">Add Goal</button>
+          </form>
+        </div>
+        <div class="card mt-2">
+          <div class="card-header-row">
+            <h3>Today's Goals</h3>
+            <span class="goal-summary" id="goal-summary">0 / 0 done</span>
+          </div>
+          <div class="progress-bar-wrap" style="margin-bottom:1rem">
+            <div class="progress-bar" id="goal-bar" style="width:0%"></div>
+          </div>
+          <div id="goals-list"></div>
+        </div>
+      </section>
+
+      <!-- PAGE: Exam Countdown -->
+      <section id="page-exams" class="page">
+        <h2 class="page-title">Exam Countdown</h2>
+        <div class="card">
+          <h3>Add Exam</h3>
+          <form onsubmit="addExam(event)" class="inline-form">
+            <input type="text" id="exam-name" placeholder="Exam / subject name" required />
+            <input type="date" id="exam-date" required />
+            <select id="exam-subject"><option value="">No subject link</option></select>
+            <button type="submit" class="btn btn-primary">Add Exam</button>
+          </form>
+        </div>
+        <div class="card mt-2">
+          <h3>Upcoming Exams</h3>
+          <div id="exams-list"></div>
+        </div>
+      </section>
+
+      <!-- PAGE: Notes -->
+      <section id="page-notes" class="page">
+        <h2 class="page-title">Notes</h2>
+        <div class="notes-layout">
+          <div class="notes-sidebar-panel">
+            <div class="card">
+              <div class="card-header-row">
+                <h3>My Notes</h3>
+                <button class="btn btn-primary btn-sm" onclick="newNote()">+ New</button>
+              </div>
+              <div id="notes-list"></div>
+            </div>
+          </div>
+          <div class="notes-editor-panel">
+            <div class="card" style="height:100%">
+              <div class="card-header-row">
+                <input type="text" id="note-title" placeholder="Note title" class="note-title-input" />
+                <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+                  <select id="note-subject"><option value="">No subject</option></select>
+                  <button class="btn btn-primary btn-sm" onclick="saveNote()">Save</button>
+                  <button class="btn btn-danger btn-sm" onclick="deleteNote()">Delete</button>
+                </div>
+              </div>
+              <textarea id="note-body" placeholder="Start typing your note here..." class="note-textarea"></textarea>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE: Analytics -->
+      <section id="page-analytics" class="page">
+        <h2 class="page-title">Study Analytics</h2>
+        <div class="stats-grid" id="analytics-stats"></div>
+        <div class="analytics-grid">
+          <div class="card">
+            <h3>📈 Hours per Subject</h3>
+            <div id="analytics-subjects"></div>
+          </div>
+          <div class="card">
+            <h3>📅 Daily Study Log (last 7 days)</h3>
+            <div id="analytics-daily"></div>
+          </div>
+          <div class="card">
+            <h3>🎯 Goal Completion Rate</h3>
+            <div id="analytics-goals"></div>
+          </div>
+          <div class="card">
+            <h3>🚨 Exam Readiness</h3>
+            <div id="analytics-exams"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE: Pomodoro -->
+      <section id="page-pomodoro" class="page">
+        <h2 class="page-title">Pomodoro Timer</h2>
+        <div class="card pomodoro-card">
+          <div class="pomodoro-mode" id="pomodoro-mode">FOCUS</div>
+          <div class="pomodoro-timer" id="pomodoro-display">25:00</div>
+          <div class="pomodoro-cycle" id="pomodoro-cycle">Cycle 1 / 4</div>
+          <div class="pomodoro-controls">
+            <button class="btn btn-primary" onclick="startPomodoro()">Start</button>
+            <button class="btn btn-ghost" onclick="pausePomodoro()">Pause</button>
+            <button class="btn btn-ghost" onclick="resetPomodoro()">Reset</button>
+          </div>
+          <div class="pomodoro-settings mt-2">
+            <label>Work (min): <input type="number" id="pom-work" value="25" min="1" max="60" /></label>
+            <label>Break (min): <input type="number" id="pom-break" value="5" min="1" max="30" /></label>
+            <label>Cycles: <input type="number" id="pom-cycles" value="4" min="1" max="20" /></label>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE: AI Tips -->
+      <section id="page-tips" class="page">
+        <h2 class="page-title">AI Study Tips</h2>
+        <div id="tips-grid" class="tips-grid"></div>
+        <button class="btn btn-primary mt-2" onclick="loadTips()">🔄 Refresh Tips</button>
+      </section>
+
+      <!-- PAGE: Profile -->
+      <section id="page-profile" class="page">
+        <h2 class="page-title">My Profile</h2>
+        <div class="card">
+          <div class="profile-header">
+            <div class="profile-avatar" id="profile-avatar">?</div>
+            <div class="profile-username" id="profile-username"></div>
+            <div class="profile-since" id="profile-since"></div>
+          </div>
+        </div>
+        <div class="stats-grid mt-2" id="profile-stats"></div>
+      </section>
+
+      <!-- PAGE: Settings -->
+      <section id="page-settings" class="page">
+        <h2 class="page-title">Settings</h2>
+
+        <div class="card">
+          <h3>🎨 Appearance</h3>
+          <div class="setting-row">
+            <div>
+              <div class="setting-label">Dark Mode</div>
+              <div class="setting-desc">Switch between light and dark theme</div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="set-dark" onchange="onSettingChange()" />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="card mt-2">
+          <h3>💧 Hydration Reminder</h3>
+          <div class="setting-row">
+            <div>
+              <div class="setting-label">Enable Reminders</div>
+              <div class="setting-desc">Get notified to drink water regularly</div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="set-hydration" onchange="onSettingChange()" />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="setting-row">
+            <div>
+              <div class="setting-label">Reminder Interval</div>
+              <div class="setting-desc">How often to remind you</div>
+            </div>
+            <select id="set-hydration-interval" onchange="onSettingChange()" class="setting-select">
+              <option value="45">Every 45 minutes</option>
+              <option value="60" selected>Every 60 minutes</option>
+              <option value="90">Every 90 minutes</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="card mt-2">
+          <h3>🔔 Study Notifications</h3>
+          <div class="setting-row">
+            <div>
+              <div class="setting-label">Enable Notifications</div>
+              <div class="setting-desc">Pomodoro alerts, exam reminders, goal nudges</div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="set-notif" onchange="onSettingChange()" />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div style="margin-top:.8rem;padding:.7rem;background:var(--surface2);border-radius:var(--radius-sm);font-size:.82rem;color:var(--text-muted)">
+            Notifications include: Pomodoro start/break/complete, exam reminders (1 day before), and hydration alerts.
+          </div>
+        </div>
+
+        <div class="card mt-2">
+          <h3>⏱ Pomodoro Defaults</h3>
+          <div class="setting-row">
+            <div>
+              <div class="setting-label">Work Duration (minutes)</div>
+            </div>
+            <input type="number" id="set-pom-work" min="1" max="60" value="25" onchange="onSettingChange()" class="setting-input" />
+          </div>
+          <div class="setting-row">
+            <div>
+              <div class="setting-label">Break Duration (minutes)</div>
+            </div>
+            <input type="number" id="set-pom-break" min="1" max="30" value="5" onchange="onSettingChange()" class="setting-input" />
+          </div>
+        </div>
+
+        <div class="card mt-2">
+          <h3>🔊 Sound</h3>
+          <div class="setting-row">
+            <div>
+              <div class="setting-label">Sound Effects</div>
+              <div class="setting-desc">Play a beep when Pomodoro session ends</div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="set-sound" onchange="onSettingChange()" />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE: About -->
+      <section id="page-about" class="page">
+        <h2 class="page-title">About</h2>
+        <div class="card">
+          <div class="about-header">
+            <div class="about-logo">🎓</div>
+            <h2 class="about-title">StudyAI</h2>
+            <p class="about-creator">Created by <strong>Mohit Chaudhary</strong></p>
+            <p class="about-desc">A smart study planner for students preparing for school exams, college exams, placements, CDS, NDA, competitive exams, and self-learning. Plan smarter, study better, and achieve your goals.</p>
+          </div>
+        </div>
+        <div class="card mt-2">
+          <h3>✨ Features</h3>
+          <div class="about-features-grid">
+            <div class="about-feature-card"><span>📅</span> Timetable Generator</div>
+            <div class="about-feature-card"><span>✏️</span> Custom Timetable Editor</div>
+            <div class="about-feature-card"><span>⏱</span> Pomodoro Timer</div>
+            <div class="about-feature-card"><span>📈</span> Progress Tracking</div>
+            <div class="about-feature-card"><span>📝</span> Notes</div>
+            <div class="about-feature-card"><span>🎯</span> Daily Goals</div>
+            <div class="about-feature-card"><span>🚨</span> Exam Countdown</div>
+            <div class="about-feature-card"><span>🔥</span> Study Analytics</div>
+            <div class="about-feature-card"><span>🧠</span> AI Study Tips</div>
+            <div class="about-feature-card"><span>💧</span> Hydration Reminder</div>
+            <div class="about-feature-card"><span>🔔</span> Browser Notifications</div>
+            <div class="about-feature-card"><span>🌙</span> Dark Mode</div>
+          </div>
+        </div>
+        <div class="card mt-2">
+          <h3>📋 Supported Exam Categories</h3>
+          <div class="about-features-grid">
+            <div class="about-feature-card"><span>🏫</span> School Exams</div>
+            <div class="about-feature-card"><span>🎓</span> College Exams</div>
+            <div class="about-feature-card"><span>💼</span> Placements</div>
+            <div class="about-feature-card"><span>🪖</span> CDS / NDA</div>
+            <div class="about-feature-card"><span>🏆</span> Competitive Exams</div>
+            <div class="about-feature-card"><span>📖</span> Self-Learning</div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+  <!-- ABOUT SCREEN -->
+<div id="about-screen" class="screen">
+    <div class="content-header">
+        <h1>About StudyHub AI</h1>
+    </div>
+
+    <div class="card">
+        <h2>StudyHub AI</h2>
+        <p>
+            StudyHub AI is a smart AI-powered study planner created by Mohit Chaudhary.
+            It helps students manage subjects, generate timetables, track progress,
+            prepare for exams, and improve productivity.
+        </p>
+
+        <h3>Features</h3>
+        <ul>
+            <li>AI Study Planning</li>
+            <li>Custom Timetable Generator</li>
+            <li>Progress Tracking</li>
+            <li>Pomodoro Timer</li>
+            <li>Exam Countdown</li>
+            <li>Study Analytics</li>
+        </ul>
+<h3>Contact Us</h3>
+
+    <p><strong>Founder:</strong> Mohit Chaudhary</p>
+    <p><strong>Website:</strong> https://studyhubai.in</p>
+    <p><strong>Email:</strong> contactrcyril555@gmail.com</p>
+
+</div>
+
+    </div>
+</div>
+
+  <!-- Toast notification container -->
+  <div id="toast-container"></div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

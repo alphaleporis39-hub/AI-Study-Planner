@@ -1405,11 +1405,7 @@ document.addEventListener('DOMContentLoaded', function () {
     enterDashboard();
   }
 });
-function scrollToLogin() {
-    document.querySelector('#auth-screen').scrollIntoView({
-        behavior: 'smooth'
-    });
-}document.querySelectorAll('.counter').forEach(counter => {
+document.querySelectorAll('.counter').forEach(counter => {
     const updateCounter = () => {
         const target = +counter.getAttribute('data-target');
         const current = +counter.innerText;
@@ -1426,14 +1422,3 @@ function scrollToLogin() {
 
     updateCounter();
 });
-function scrollToLogin() {
-    const auth = document.getElementById('auth-screen');
-
-    if (auth) {
-        auth.style.display = 'flex';
-        auth.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-        });
-    }
-}
