@@ -2,8 +2,12 @@
   "version": 2,
   "rewrites": [
     {
-      "source": "/api/(.*)",
+      "source": "/(api/.*)",
       "destination": "backend/server.js"
+    },
+    {
+      "source": "/(sitemap\\.xml|robots\\.txt)",
+      "destination": "frontend/$1"
     }
   ]
 }
