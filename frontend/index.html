@@ -129,46 +129,23 @@
 <!-- HERO SECTION -->
 
 
-  <!-- AUTH SCREEN -->
-  <div id="auth-screen" class="screen active">
-    <div class="auth-card">
+  <!-- WELCOME SCREEN -->
+  <div id="welcome-screen" class="screen active">
+    <div class="auth-card welcome-card">
+      <span class="welcome-badge">✨ Start Learning Free</span>
       <div class="logo">
-        <span class="logo-icon">🎓</span>
+        <span class="logo-icon welcome-float">🎓</span>
         <h1>AI Study Planner</h1>
-        <p>Your intelligent learning companion</p>
+        <p>Your AI-powered study companion</p>
       </div>
-      <div class="tab-bar">
-        <button class="tab-btn active" onclick="switchTab('login')">Login</button>
-        <button class="tab-btn" onclick="switchTab('register')">Register</button>
-      </div>
-      <div class="auth-hint" id="auth-hint">
-        Already registered? Login below.
-      </div>
-      <form id="login-form" class="auth-form" onsubmit="handleLogin(event)">
+      <form id="welcome-form" class="auth-form welcome-form" onsubmit="handleWelcome(event)">
         <div class="input-group">
-          <label>Username</label>
-          <input type="text" id="login-username" placeholder="Enter username" required />
+          <label>Your Name</label>
+          <input type="text" id="welcome-name" placeholder="Enter your name" required />
         </div>
-        <div class="input-group">
-          <label>Password</label>
-          <input type="password" id="login-password" placeholder="Enter password" required />
-        </div>
-        <button type="submit" class="btn btn-primary btn-full">Login</button>
-        <p id="login-error" class="error-msg"></p>
+        <button type="submit" class="btn btn-primary btn-full">Get Started</button>
       </form>
-      <form id="register-form" class="auth-form hidden" onsubmit="handleRegister(event)">
-        <div class="input-group">
-          <label>Username</label>
-          <input type="text" id="reg-username" placeholder="Choose username" required />
-        </div>
-        <div class="input-group">
-          <label>Password</label>
-          <input type="password" id="reg-password" placeholder="Min 4 characters" required />
-        </div>
-        <button type="submit" class="btn btn-primary btn-full">Create Account</button>
-        <p id="reg-error" class="error-msg"></p>
-        <p id="reg-success" class="success-msg"></p>
-      </form>
+      <p class="welcome-hint">No sign-up. No ads. Start instantly.</p>
     </div>
   </div>
 
@@ -194,6 +171,7 @@
         <a href="#" class="nav-item" data-page="tips">🧠 AI Tips</a>
         <a href="#" class="nav-item" data-page="profile">👤 Profile</a>
         <a href="#" class="nav-item" data-page="settings">⚙️ Settings</a>
+        <a href="#" class="nav-item" data-page="premium">⭐ Premium</a>
         <a href="#" class="nav-item" data-page="about">ℹ️ About</a>
       </nav>
       <div class="sidebar-footer">
@@ -226,6 +204,14 @@
           <div class="card">
             <h3>🚨 Upcoming Exams</h3>
             <div id="dash-exams"></div>
+          </div>
+          <div class="card study-guide-card">
+            <div class="card-header-row">
+              <h3>🤖 AI Study Guide</h3>
+              <button class="study-guide-toggle" id="study-guide-toggle" onclick="toggleStudyGuide()" title="Get personalized tips">💡</button>
+            </div>
+            <div id="study-guide-summary"></div>
+            <div id="study-guide-steps" class="study-guide-steps hidden"></div>
           </div>
         </div>
       </section>
@@ -364,7 +350,10 @@
 
       <!-- PAGE: Notes -->
       <section id="page-notes" class="page">
-        <h2 class="page-title">Notes</h2>
+        <div class="page-title-row">
+          <h2 class="page-title">Notes</h2>
+          <button class="btn btn-primary btn-sm" onclick="openAIAssistant()" title="AI Study Assistant">🤖 AI Assistant</button>
+        </div>
         <div class="notes-layout">
           <div class="notes-sidebar-panel">
             <div class="card">
@@ -503,15 +492,16 @@
           <div class="setting-row">
             <div>
               <div class="setting-label">Enable Notifications</div>
-              <div class="setting-desc">Pomodoro alerts, exam reminders, goal nudges</div>
+              <div class="setting-desc">Pomodoro alerts, exam reminders, daily motivation</div>
             </div>
             <label class="toggle-switch">
               <input type="checkbox" id="set-notif" onchange="onSettingChange()" />
               <span class="toggle-slider"></span>
             </label>
           </div>
-          <div style="margin-top:.8rem;padding:.7rem;background:var(--surface2);border-radius:var(--radius-sm);font-size:.82rem;color:var(--text-muted)">
-            Notifications include: Pomodoro start/break/complete, exam reminders (1 day before), and hydration alerts.
+          <div id="notif-permission-status" style="margin-top:.8rem;padding:.7rem;background:var(--surface2);border-radius:var(--radius-sm);font-size:.82rem;color:var(--text-muted)"></div>
+          <div style="margin-top:.6rem;padding:.7rem;background:var(--surface2);border-radius:var(--radius-sm);font-size:.82rem;color:var(--text-muted)">
+            Notifications include: Pomodoro alerts, exam reminders, hydration reminders, and daily motivation quotes.
           </div>
         </div>
 
@@ -542,6 +532,88 @@
               <input type="checkbox" id="set-sound" onchange="onSettingChange()" />
               <span class="toggle-slider"></span>
             </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE: Premium -->
+      <section id="page-premium" class="page">
+        <h2 class="page-title">⭐ Upgrade to Premium</h2>
+        <div class="premium-hero">
+          <div class="premium-hero-icon">🚀</div>
+          <h3>Unlock Full AI Power</h3>
+          <p>Get unlimited access to all AI features and supercharge your study routine.</p>
+        </div>
+        <div class="premium-plans">
+          <div class="premium-plan-card">
+            <div class="premium-plan-badge">Free</div>
+            <div class="premium-plan-price">₹0</div>
+            <div class="premium-plan-period">forever</div>
+            <ul class="premium-plan-features">
+              <li class="premium-feature-yes">📝 Create & save notes</li>
+              <li class="premium-feature-yes">📊 Progress tracking</li>
+              <li class="premium-feature-yes">⏱ Pomodoro timer</li>
+              <li class="premium-feature-yes">📅 Timetable generator</li>
+              <li class="premium-feature-yes">🔥 Streak tracking</li>
+              <li class="premium-feature-yes">🌙 Dark mode</li>
+              <li class="premium-feature-no">📄 30 AI document uploads/month</li>
+              <li class="premium-feature-no">💬 30 AI questions/day</li>
+              <li class="premium-feature-no">❌ No AI flashcards</li>
+              <li class="premium-feature-no">❌ No AI quizzes</li>
+              <li class="premium-feature-no">❌ No AI revision notes</li>
+              <li class="premium-feature-no">❌ No study plan generation</li>
+            </ul>
+            <button class="btn btn-ghost btn-full" disabled>Current Plan</button>
+          </div>
+          <div class="premium-plan-card premium-plan-featured">
+            <div class="premium-plan-badge premium-badge-hot">Most Popular</div>
+            <div class="premium-plan-price">₹199<span>/mo</span></div>
+            <div class="premium-plan-period">billed monthly</div>
+            <ul class="premium-plan-features">
+              <li class="premium-feature-yes">📝 Everything in Free</li>
+              <li class="premium-feature-yes">📄 Unlimited AI document uploads</li>
+              <li class="premium-feature-yes">💬 Unlimited AI questions</li>
+              <li class="premium-feature-yes">🃏 AI flashcard generation</li>
+              <li class="premium-feature-yes">❓ AI quiz generation</li>
+              <li class="premium-feature-yes">📋 AI revision notes</li>
+              <li class="premium-feature-yes">📅 AI study plan generation</li>
+              <li class="premium-feature-yes">🎯 AI exam topic suggestions</li>
+              <li class="premium-feature-yes">⚡ Priority processing</li>
+              <li class="premium-feature-yes">🔒 Ad-free experience</li>
+            </ul>
+            <button class="btn btn-primary btn-full" onclick="showPayment('monthly')">Upgrade Now — ₹199/mo</button>
+          </div>
+          <div class="premium-plan-card">
+            <div class="premium-plan-badge premium-badge-save">Save 17%</div>
+            <div class="premium-plan-price">₹299<span>/3mo</span></div>
+            <div class="premium-plan-period">billed quarterly (₹99.7/mo)</div>
+            <ul class="premium-plan-features">
+              <li class="premium-feature-yes">Everything in Monthly</li>
+              <li class="premium-feature-yes">💰 Save ₹298 over 3 months</li>
+              <li class="premium-feature-yes">🎁 Bonus: Exam prep pack</li>
+              <li class="premium-feature-yes">📊 Advanced analytics</li>
+              <li class="premium-feature-yes">🏆 Priority support</li>
+            </ul>
+            <button class="btn btn-primary btn-full" onclick="showPayment('quarterly')">Upgrade Now — ₹299/3mo</button>
+          </div>
+        </div>
+        <div class="premium-faq">
+          <h3>Frequently Asked Questions</h3>
+          <div class="premium-faq-item">
+            <strong>How does the AI Assistant work?</strong>
+            <p>Upload your study documents (PDF, DOCX, PPT, TXT, images) and our AI will summarize content, extract key points, generate flashcards, quizzes, and answer your questions — all based on your uploaded material.</p>
+          </div>
+          <div class="premium-faq-item">
+            <strong>Can I cancel anytime?</strong>
+            <p>Yes! You can cancel your subscription anytime. Your premium features will remain active until the end of your billing period.</p>
+          </div>
+          <div class="premium-faq-item">
+            <strong>Is my data secure?</strong>
+            <p>Absolutely. Your documents are processed securely and are never shared with third parties. We use industry-standard encryption.</p>
+          </div>
+          <div class="premium-faq-item">
+            <strong>What payment methods are supported?</strong>
+            <p>We support UPI, credit/debit cards, net banking, and wallets through Razorpay and Cashfree payment gateways.</p>
           </div>
         </div>
       </section>
@@ -622,6 +694,88 @@
 
     </div>
 </div>
+
+  <!-- AI Study Assistant Overlay -->
+  <div id="ai-assistant-overlay" class="ai-overlay hidden">
+    <div class="ai-panel">
+      <div class="ai-panel-header">
+        <h3>🤖 AI Study Assistant</h3>
+        <div class="ai-panel-header-right">
+          <span class="ai-usage-badge" id="ai-usage-badge"></span>
+          <button class="ai-close-btn" onclick="closeAIAssistant()">✕</button>
+        </div>
+      </div>
+      <div class="ai-panel-body">
+        <!-- Upload Section -->
+        <div class="ai-upload-section" id="ai-upload-section">
+          <div class="ai-upload-zone" id="ai-upload-zone">
+            <input type="file" id="ai-file-input" accept=".pdf,.docx,.doc,.ppt,.pptx,.txt,.png,.jpg,.jpeg,.webp" multiple hidden />
+            <div class="ai-upload-icon">📄</div>
+            <p class="ai-upload-text">Drop files here or <span class="ai-upload-link" onclick="document.getElementById('ai-file-input').click()">browse</span></p>
+            <p class="ai-upload-hint">PDF, DOCX, PPT, TXT, PNG, JPG — Max 10MB each</p>
+          </div>
+          <div id="ai-uploaded-files" class="ai-uploaded-files"></div>
+        </div>
+        <!-- Action Buttons -->
+        <div class="ai-actions" id="ai-actions" style="display:none">
+          <button class="ai-action-btn" onclick="aiAction('summarize')">📝 Summarize</button>
+          <button class="ai-action-btn" onclick="aiAction('keypoints')">🔑 Key Points</button>
+          <button class="ai-action-btn" onclick="aiAction('explain')">💡 Explain Simply</button>
+          <button class="ai-action-btn" onclick="aiAction('revision')">📋 Revision Notes</button>
+          <button class="ai-action-btn" onclick="aiAction('flashcards')">🃏 Flashcards</button>
+          <button class="ai-action-btn" onclick="aiAction('mcq')">❓ MCQs</button>
+          <button class="ai-action-btn" onclick="aiAction('quiz')">🧩 Quiz</button>
+          <button class="ai-action-btn" onclick="aiAction('examtips')">🎯 Exam Topics</button>
+        </div>
+        <!-- Chat Section -->
+        <div class="ai-chat-section" id="ai-chat-section" style="display:none">
+          <div class="ai-chat-messages" id="ai-chat-messages">
+            <div class="ai-msg ai-msg-bot">
+              <div class="ai-msg-avatar">🤖</div>
+              <div class="ai-msg-content">Hi! I've analyzed your document. Ask me anything about it — I'll answer based only on the uploaded content.</div>
+            </div>
+          </div>
+          <div class="ai-chat-input-row">
+            <input type="text" id="ai-chat-input" placeholder="Ask a question about your document..." class="ai-chat-input" onkeydown="if(event.key==='Enter')sendAIMessage()" />
+            <button class="btn btn-primary btn-sm" onclick="sendAIMessage()">Send</button>
+          </div>
+        </div>
+        <!-- Results Section -->
+        <div class="ai-results-section" id="ai-results-section" style="display:none">
+          <div id="ai-results-content"></div>
+          <div class="ai-results-actions">
+            <button class="btn btn-primary btn-sm" onclick="addAIResultToNote()">📝 Save as Note</button>
+            <button class="btn btn-ghost btn-sm" onclick="addAIResultToPlan()">📅 Add to Today's Plan</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Payment Modal -->
+  <div id="payment-modal" class="ai-overlay hidden">
+    <div class="ai-panel" style="max-width:440px">
+      <div class="ai-panel-header">
+        <h3>💳 Complete Payment</h3>
+        <button class="ai-close-btn" onclick="closePayment()">✕</button>
+      </div>
+      <div class="ai-panel-body">
+        <div id="payment-summary" style="margin-bottom:1rem"></div>
+        <div class="payment-methods">
+          <h4>Select Payment Method</h4>
+          <button class="payment-method-btn" onclick="processPayment('razorpay')">
+            <span>💳</span>
+            <div><strong>Razorpay</strong><br><small>UPI, Cards, Net Banking, Wallets</small></div>
+          </button>
+          <button class="payment-method-btn" onclick="processPayment('cashfree')">
+            <span>🏦</span>
+            <div><strong>Cashfree</strong><br><small>UPI, Cards, Net Banking</small></div>
+          </button>
+        </div>
+        <p class="payment-note">🔒 Secure payment powered by RBI-compliant gateways. Your card details are never stored.</p>
+      </div>
+    </div>
+  </div>
 
   <!-- Toast notification container -->
   <div id="toast-container"></div>
