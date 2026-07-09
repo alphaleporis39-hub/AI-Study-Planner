@@ -112,6 +112,13 @@ async function incQuestionCount(userId) {
 
 // ── Serve all static frontend files ────────────────────────────────────────
 const FRONTEND = path.join(__dirname, "..", "frontend");
+
+// ── Serve sitemap.xml with correct content type ────────────────────────────
+app.get("/sitemap.xml", (req, res) => {
+  res.setHeader("Content-Type", "application/xml");
+  res.sendFile(path.join(FRONTEND, "sitemap.xml"));
+});
+
 app.use(express.static(FRONTEND));
 
 // ── Named page routes (clean URLs without .html extension) ─────────────────
