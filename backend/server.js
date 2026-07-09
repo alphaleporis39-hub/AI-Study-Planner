@@ -111,12 +111,19 @@ async function incQuestionCount(userId) {
 }
 
 // ── Serve all static frontend files ────────────────────────────────────────
-const FRONTEND = path.join(__dirname, "..", "frontend");
+// Use process.cwd() for Vercel serverless compatibility (dirname resolves to /var/task)
+const FRONTEND = path.join(process.cwd(), "frontend");
 
 // ── Serve sitemap.xml with correct content type ────────────────────────────
 app.get("/sitemap.xml", (req, res) => {
   res.setHeader("Content-Type", "application/xml");
   res.sendFile(path.join(FRONTEND, "sitemap.xml"));
+});
+
+// ── Serve robots.txt with correct content type ─────────────────────────────
+app.get("/robots.txt", (req, res) => {
+  res.setHeader("Content-Type", "text/plain");
+  res.sendFile(path.join(FRONTEND, "robots.txt"));
 });
 
 app.use(express.static(FRONTEND));
