@@ -1,8 +1,6 @@
 const express = require("express");
-const cors    = require("cors");
-const path    = require("path");
-const sqlite3 = require("sqlite3").verbose();
-
+const cors = require("cors");
+const path = require("path");
 const app = express();
 
 // ── Middleware ──────────────────────────────────────────────────────────────
@@ -10,43 +8,9 @@ app.use(cors());
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 
-// ── Usage Limits ───────────────────────────────────────────────────────────
-const FREE_AI_UPLOAD_LIMIT   = 30;
-const FREE_AI_QUESTION_LIMIT = 30;
-
-// ── SQLite Database ────────────────────────────────────────────────────────
-const DB_PATH = path.join(__dirname, "usage.db");
-const db = new sqlite3.Database(DB_PATH, (err) => {
-  if (err) console.error("SQLite error:", err.message);
-});
-
-db.serialize(() => {
-  db.run(`CREATE TABLE IF NOT EXISTS ai_usage (
-    user_id    TEXT NOT NULL,
-    usage_type TEXT NOT NULL,
-    period     TEXT NOT NULL,
-    count      INTEGER DEFAULT 0,
-    PRIMARY KEY (user_id, usage_type, period)
-  )`);
-});
-
-function dbRun(sql, params) {
-  return new Promise((resolve, reject) => {
-    db.run(sql, params, function (err) {
-      if (err) reject(err);
-      else resolve(this);
-    });
-  });
-}
-
-function dbGet(sql, params) {
-  return new Promise((resolve, reject) => {
-    db.get(sql, params, (err, row) => {
-      if (err) reject(err);
-      else resolve(row);
-    });
-  });
-}
+// ── Usage tracking (Vercel-safe, in-memory fallback) ──────────────────────
+// Persistent usage limits are disabled to avoid SQLite dependency on Vercel.
+const usageByUser = new Map();
 
 function getCurrentMonth() {
   return new Date().toISOString().slice(0, 7);
@@ -56,59 +20,46 @@ function getCurrentDay() {
   return new Date().toISOString().slice(0, 10);
 }
 
-async function getUploadCount(userId) {
-  const row = await dbGet(
-    "SELECT count FROM ai_usage WHERE user_id = ? AND usage_type = 'upload' AND period = ?",
-    [userId, getCurrentMonth()]
-  );
-  return row ? row.count : 0;
+
+function getUserUsage(userId) {
+  let entry = usageByUser.get(userId);
+  if (!entry) {
+    entry = { uploads: new Map(), questions: new Map() };
+    usageByUser.set(userId, entry);
+  }
+  return entry;
 }
 
-async function getQuestionCount(userId) {
-  const row = await dbGet(
-    "SELECT count FROM ai_usage WHERE user_id = ? AND usage_type = 'question' AND period = ?",
-    [userId, getCurrentDay()]
-  );
-  return row ? row.count : 0;
+async function getUploadCount(userId) {
+  const usage = getUserUsage(userId);
+  const period = getCurrentMonth();
+  return usage.uploads.get(period) || 0;
 }
 
 async function incUploadCount(userId) {
+  const usage = getUserUsage(userId);
   const period = getCurrentMonth();
-  const existing = await dbGet(
-    "SELECT count FROM ai_usage WHERE user_id = ? AND usage_type = 'upload' AND period = ?",
-    [userId, period]
-  );
-  if (existing) {
-    await dbRun(
-      "UPDATE ai_usage SET count = count + 1 WHERE user_id = ? AND usage_type = 'upload' AND period = ?",
-      [userId, period]
-    );
-  } else {
-    await dbRun(
-      "INSERT INTO ai_usage (user_id, usage_type, period, count) VALUES (?, 'upload', ?, 1)",
-      [userId, period]
-    );
-  }
+  const next = (usage.uploads.get(period) || 0) + 1;
+  usage.uploads.set(period, next);
+  return next;
+}
+
+async function getQuestionCount(userId) {
+  const usage = getUserUsage(userId);
+  const period = getCurrentDay();
+  return usage.questions.get(period) || 0;
 }
 
 async function incQuestionCount(userId) {
+  const usage = getUserUsage(userId);
   const period = getCurrentDay();
-  const existing = await dbGet(
-    "SELECT count FROM ai_usage WHERE user_id = ? AND usage_type = 'question' AND period = ?",
-    [userId, period]
-  );
-  if (existing) {
-    await dbRun(
-      "UPDATE ai_usage SET count = count + 1 WHERE user_id = ? AND usage_type = 'question' AND period = ?",
-      [userId, period]
-    );
-  } else {
-    await dbRun(
-      "INSERT INTO ai_usage (user_id, usage_type, period, count) VALUES (?, 'question', ?, 1)",
-      [userId, period]
-    );
-  }
+  const next = (usage.questions.get(period) || 0) + 1;
+  usage.questions.set(period, next);
+  return next;
 }
+
+
+
 
 // ── Serve all static frontend files ────────────────────────────────────────
 // Use process.cwd() for Vercel serverless compatibility (dirname resolves to /var/task)
@@ -171,18 +122,12 @@ app.post("/api/ai/process", async (req, res) => {
     const { action, content, fileName, userId } = req.body;
     if (!content) return res.status(400).json({ error: "No content provided" });
 
-    // ── Server-side usage enforcement ──────────────────────────────────────
+    // ── Server-side usage tracking (disabled persistent limits) ───────
+    // In-memory fallback only; persistent blocking is disabled on Vercel.
     if (userId) {
-      const uploadCount = await getUploadCount(userId);
-      if (uploadCount >= FREE_AI_UPLOAD_LIMIT) {
-        return res.status(429).json({
-          error: "Free upload limit reached (" + FREE_AI_UPLOAD_LIMIT + "/month). Upgrade to Premium!",
-          limit: FREE_AI_UPLOAD_LIMIT,
-          used: uploadCount,
-        });
-      }
       await incUploadCount(userId);
     }
+
 
     const snippet = content.slice(0, 500);
     const wordCount = content.split(/\s+/).length;
@@ -250,18 +195,11 @@ app.post("/api/ai/chat", async (req, res) => {
     const { question, content, fileName, userId } = req.body;
     if (!question) return res.status(400).json({ error: "No question provided" });
 
-    // ── Server-side usage enforcement ──────────────────────────────────────
+    // ── Server-side usage tracking (disabled persistent limits) ───────
     if (userId) {
-      const questionCount = await getQuestionCount(userId);
-      if (questionCount >= FREE_AI_QUESTION_LIMIT) {
-        return res.status(429).json({
-          error: "Free question limit reached (" + FREE_AI_QUESTION_LIMIT + "/day). Upgrade to Premium!",
-          limit: FREE_AI_QUESTION_LIMIT,
-          used: questionCount,
-        });
-      }
       await incQuestionCount(userId);
     }
+
 
     const q = question.toLowerCase();
     let answer = "";
