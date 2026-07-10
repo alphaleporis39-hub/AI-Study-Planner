@@ -142,14 +142,18 @@ app.get("/blog", (req, res) => {
 });
 
 const blogPosts = [
-  "study-planning-guide",
-  "pomodoro-technique",
-  "time-management-students",
-  "exam-preparation-tips",
-  "student-productivity",
-  "goal-setting-students",
-  "daily-study-routine",
   "ai-for-students",
+  "best-free-ai-study-planner-2026",
+  "best-study-timer-for-focus-and-productivity",
+  "chatgpt-for-students-25-ways-to-study-smarter-in-2026",
+  "create-ai-flashcards-from-notes-and-pdfs",
+  "exam-preparation-tips",
+  "free-ai-pdf-summarizer-for-students",
+  "free-ai-study-timetable-generator",
+  "pomodoro-technique",
+  "student-productivity",
+  "study-planning-guide",
+  "time-management-students",
 ];
 blogPosts.forEach((slug) => {
   app.get(`/blog/${slug}`, (req, res) => {
